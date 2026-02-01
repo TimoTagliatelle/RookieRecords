@@ -21,7 +21,7 @@ h2 {
 
 @font-face {
   font-family: "Ravie";
-  src: url("../RR/RAVIE.TTF") format("truetype");
+  src: url("../RAVIE.TTF") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -228,6 +228,7 @@ main {
     font-size: 12px;
   }
 }
+
 
 
 
