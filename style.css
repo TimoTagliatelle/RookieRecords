@@ -8,6 +8,7 @@ body {
     color: #E4AB30;
     line-height: 1.6;
     padding: 20px;
+    font-size: clamp(14px, 2vw, 18px);
 }
 
 h1 {
@@ -21,7 +22,7 @@ h2 {
 
 @font-face {
   font-family: "Ravie";
-  src: url("RAVIE.TTF") format("truetype");
+  src: url("../RR/RAVIE.TTF") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -144,7 +145,8 @@ main {
   padding-bottom: 56.25%; /* 16:9 Verhältnis */
   height: 0;
   overflow: hidden;
-  max-width: 100%;
+  width: 100%;
+  max-width: 600px; /* optional */
 }
 
 .video-container iframe {
@@ -159,7 +161,8 @@ main {
   display: flex;
   align-items: flex-start;
   gap: 20px;
-  margin-bottom: 30px
+  margin-bottom: 30px;
+  width: 100%;
 }
 
 .video-info {
@@ -195,6 +198,34 @@ main {
     padding: 8px 14px;
     font-size: 13px;
   }
+  .video-item {
+    flex-direction: column;
+    align-items: center;
+  }
+  .video-info {
+    max-width: 100%;
+    text-align: center;
+  }
+  .main-container {
+    flex-direction: column;
+  }
+  .filter-container {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }  
+  .filter-container select {
+    flex: 1 1 45%;
+    min-width: 120px;
+  }
+  .filter-container {
+    position: sticky;
+    top: 0;
+    background: black;
+    padding: 10px;
+    z-index: 10;
+  }
 }
 
 /* Media Query: Smartphones */
@@ -202,7 +233,6 @@ main {
   body {
     padding: 10px;
   }
-
   .header-logo img {
     max-width: 200px; 
     width: auto;
@@ -227,9 +257,22 @@ main {
     padding: 6px 10px;
     font-size: 12px;
   }
+  .header-nav ul {
+    gap: 10px !important;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .header-nav a {
+    font-size: 16px;
+  }
+    .picmenu img {
+    max-width: 120px;
+  }
+
+  .picmenu {
+    gap: 10px;
+  }
 }
-
-
 
 
 

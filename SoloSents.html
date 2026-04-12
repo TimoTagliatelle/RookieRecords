@@ -127,8 +127,7 @@
       container.classList.add("video-item");
       //Video iframe
       const iframe = document.createElement("iframe");
-      iframe.width = "560";
-      iframe.height = "315";
+
       iframe.src = `https://www.youtube.com/embed/${video.id}`;
       iframe.title = video.title;
       iframe.frameBorder = "0";
@@ -145,7 +144,10 @@
         Sector: ${video.sector}<br>
         Grade: ${video.grade} 
       `;
-      container.appendChild(iframe);
+      const videoWrapper = document.createElement("div");
+        videoWrapper.classList.add("video-container");
+        videoWrapper.appendChild(iframe);
+      container.appendChild(videoWrapper);;
       container.appendChild(info);
       grid.appendChild(container);
     });}
