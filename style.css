@@ -101,12 +101,13 @@ header {
   flex-wrap: nowrap;
 }
 .picmenu img {
-  max-width: 200px;
-  width: 30%;
+  width: clamp(130px, 15vw, 250px);
   height: auto;
+  flex-shrink: 0;
   filter: saturate(60%) brightness(90%);
   transition: filter 0.3s ease;
 }
+
 .picmenu a:hover img {
   filter: saturate(100%) brightness(100%);
 }
