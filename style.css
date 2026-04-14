@@ -9,6 +9,7 @@ body {
     line-height: 1.6;
     padding: 20px;
     font-size: clamp(14px, 2vw, 18px);
+    font-family: "Ravie", cursive;
 }
 
 h1 {
@@ -22,7 +23,9 @@ h2 {
 
 @font-face {
   font-family: "Ravie";
-  src: url("../RR/RAVIE.TTF") format("truetype");
+    src:  url("../RR/RAVIE.woff2") format("woff2"),
+          url("../RR/RAVIE.woff") format("woff"),
+          url("../RR/RAVIE.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
