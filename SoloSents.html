@@ -15,15 +15,13 @@
         <img class="img-fluid" src="Logo3.png" alt="RR Logo">
         </a>
       </div>
-      <div>
       <nav class="header-nav">
         <ul class="d-flex align-items-center gap-5">
           <li><a href="SoloSents.html"class="active">SoloSents</a></li>
           <li><a href="CrewTapes.html">CrewTapes</a></li>
           <li><a href="Merch.html">Merch</a></li>
         </ul>
-      </nav>
-    </div>  
+      </nav>    
     </header>
   <main class="main-container">
    <div id="filter-container" class="filter-container">
@@ -62,14 +60,14 @@
 
   const unique = (arr) => [...new Set(arr)];
 
-    unique(videos.map(v => v.person)).forEach(p => {
+    unique(videos.map(v => v.person)).sort((a,b,) => a.localeCompare(b)).forEach(p => {
     const option = document.createElement("option");
     option.value = p;
     option.textContent = p;
     personSelect.appendChild(option);
   });
 
-    unique(videos.map(v => v.sector)).forEach(s => {
+    unique(videos.map(v => v.sector)).sort((a,b,) => a.localeCompare(b)).forEach(s => {
       const option = document.createElement("option");
       option.value = s;
       option.textContent = s;
@@ -77,7 +75,7 @@
     });
 
 
-    unique(videos.map(v => v.year)).forEach(y => {
+    unique(videos.map(v => v.year)).sort((a, b) => b - a).forEach(y => {
       const option = document.createElement("option");
       option.value = y;
       option.textContent = y;
@@ -85,7 +83,7 @@
     });
 
 
-    unique(videos.map(v => v.grade)).forEach(g => {
+    unique(videos.map(v => v.grade)).sort((a, b) => a.localeCompare(b)).forEach(g => {
       const option = document.createElement("option");
       option.value = g;
       option.textContent = g;
