@@ -123,14 +123,35 @@
     //Container Video+Infos
       const container = document.createElement("div");
       container.classList.add("video-item");
-      //Video iframe
-      const iframe = document.createElement("iframe");
+      
+    // Thumbnail statt direktem Video
+    const thumbnail = document.createElement("img");
+    thumbnail.src = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
+    thumbnail.classList.add("video-thumb");
 
-      iframe.src = `https://www.youtube.com/embed/${video.id}`;
-      iframe.title = video.title;
-      iframe.frameBorder = "0";
-      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-      iframe.allowFullscreen = true;
+    // Play-Button Overlay
+    const playButton = document.createElement("div");
+    playButton.classList.add("play-button");
+    playButton.innerHTML = "▶";
+
+    // Wrapper
+    const videoWrapper = document.createElement("div");
+    videoWrapper.classList.add("video-container");
+
+    videoWrapper.appendChild(thumbnail);
+    videoWrapper.appendChild(playButton);
+
+    // Klick → Video laden
+    videoWrapper.addEventListener("click", () => {
+      const iframe = document.createElement("iframe");
+    iframe.src = `https://www.youtube.com/embed/${video.id}?autoplay=1`;
+    iframe.frameBorder = "0";
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+    iframe.allowFullscreen = true;
+
+    videoWrapper.innerHTML = "";
+    videoWrapper.appendChild(iframe);
+  });  
 
     //Info-Box rechts
       const info = document.createElement("div");
@@ -140,11 +161,8 @@
         Person: ${video.person}<br>
         Year: ${video.year}<br>
         Sector: ${video.sector}<br>
-        Grade: ${video.grade} 
-      `;
-      const videoWrapper = document.createElement("div");
-        videoWrapper.classList.add("video-container");
-        videoWrapper.appendChild(iframe);
+        Grade: ${video.grade} `;
+
       container.appendChild(videoWrapper);;
       container.appendChild(info);
       grid.appendChild(container);
