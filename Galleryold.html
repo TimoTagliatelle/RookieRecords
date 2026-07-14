@@ -49,8 +49,7 @@
         max-width: 900px;
         height: 320px;
         margin: 0 auto;
-        /* kein overflow:hidden mehr - die Pfeile duerfen ausserhalb
-           der einzelnen Bilder sitzen, geclippt wird nur pro Bild */
+        overflow: hidden;
       }
 
       .wheel-track {
@@ -83,48 +82,35 @@
         cursor: zoom-in;
       }
 
-      /* ---------- Wheel-Pfeile ----------
-         Werden per JS ueber --arrow-offset direkt neben das
-         kleinste/ausgeblasste Randbild (Offset 2) positioniert. */
+      /* ---------- Arrows ---------- */
       .wheel-arrow {
-        position: absolute;
-        top: 50%;
-        left: 50%;
         background: none;
         border: none;
         color: #E4AB30;
-        font-size: 30px;
+        font-size: 32px;
         line-height: 1;
-        padding: 6px 10px;
+        padding: 8px 18px;
         cursor: pointer;
         opacity: 0.7;
         transition: opacity 0.2s ease, transform 0.2s ease;
-        z-index: 6;
-      }
-
-      .wheel-arrow-prev {
-        transform: translate(-50%, -50%) translateX(calc(-1 * var(--arrow-offset, 380px)));
-      }
-
-      .wheel-arrow-next {
-        transform: translate(-50%, -50%) translateX(var(--arrow-offset, 380px));
+        z-index: 5;
+        flex-shrink: 0;
       }
 
       .wheel-arrow:hover {
         opacity: 1;
-      }
-
-      .wheel-arrow-prev:hover {
-        transform: translate(-50%, -50%) translateX(calc(-1 * var(--arrow-offset, 380px))) scale(1.15);
-      }
-
-      .wheel-arrow-next:hover {
-        transform: translate(-50%, -50%) translateX(var(--arrow-offset, 380px)) scale(1.15);
+        transform: scale(1.1);
       }
 
       .wheel-arrow:focus-visible {
         outline: 2px solid #E4AB30;
         outline-offset: 2px;
+      }
+
+      .wheel-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       /* ---------- Lightbox ---------- */
@@ -143,38 +129,11 @@
         display: flex;
       }
 
-      .lightbox-stage {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 24px;
-        max-width: 92vw;
-      }
-
       .lightbox img {
-        max-width: 80vw;
+        max-width: 90vw;
         max-height: 85vh;
         object-fit: contain;
         border-radius: 4px;
-      }
-
-      .lightbox-nav {
-        background: none;
-        border: none;
-        color: #E4AB30;
-        font-size: 44px;
-        line-height: 1;
-        padding: 8px 12px;
-        cursor: pointer;
-        opacity: 0.75;
-        transition: opacity 0.2s ease, transform 0.2s ease;
-        flex-shrink: 0;
-      }
-
-      .lightbox-nav:hover {
-        opacity: 1;
-        transform: scale(1.1);
       }
 
       .lightbox-close {
@@ -196,9 +155,7 @@
       @media (max-width: 700px) {
         .wheel { height: 220px; }
         .wheel-item { width: 150px; height: 150px; }
-        .wheel-arrow { font-size: 22px; padding: 4px 6px; }
-        .lightbox-stage { gap: 8px; }
-        .lightbox-nav { font-size: 30px; padding: 4px 6px; }
+        .wheel-arrow { font-size: 24px; padding: 4px 8px; }
       }
     </style>
   </head>
@@ -229,11 +186,7 @@
     <!-- Lightbox -->
     <div class="lightbox" id="lightbox">
       <button class="lightbox-close" id="lightbox-close" aria-label="Schliessen">&times;</button>
-      <div class="lightbox-stage">
-        <button class="lightbox-nav" id="lightbox-prev" aria-label="Vorheriges Foto">&#8249;</button>
-        <img id="lightbox-img" src="" alt="">
-        <button class="lightbox-nav" id="lightbox-next" aria-label="Naechstes Foto">&#8250;</button>
-      </div>
+      <img id="lightbox-img" src="" alt="">
     </div>
 
     <script>
@@ -258,105 +211,36 @@
             "gallery/2026_09.jpeg",
             "gallery/2026_10.jpeg"
           ]
-        },
+        }
         // Beispiel fuer ein weiteres Jahr:
         // {
         //   year: "2025",
         //   images: ["gallery/2025_01.jpeg", "gallery/2025_02.jpeg", ...]
         // },
-        {
-          year: "2025",
-          images: [
-            "gallery/2025_01.jpeg",
-            "gallery/2025_02.jpeg",
-            "gallery/2025_03.jpeg",
-            "gallery/2025_04.jpeg",
-            "gallery/2025_05.jpeg",
-            "gallery/2025_06.jpeg",
-            "gallery/2025_07.jpeg",
-            "gallery/2025_08.jpeg",
-            "gallery/2025_09.jpeg",
-            "gallery/2025_10.jpeg",
-            "gallery/2025_11.jpeg",
-            "gallery/2025_12.jpeg",
-            "gallery/2025_13.jpeg",
-            "gallery/2025_14.jpeg",
-            "gallery/2025_15.jpeg"
-          ]
-        },
-        {
-          year: "2024",
-          images: [
-            "gallery/2024_01.jpg",
-            "gallery/2024_02.jpg",
-            "gallery/2024_03.jpg",
-            "gallery/2024_04.jpg",
-            "gallery/2024_05.jpg",
-            "gallery/2024_06.jpg",
-            "gallery/2024_07.jpg",
-            "gallery/2024_08.jpg",
-            "gallery/2024_09.jpg",
-            "gallery/2024_10.jpg",
-            "gallery/2024_11.jpg",
-            "gallery/2024_12.jpg",
-            "gallery/2024_13.jpg",
-            "gallery/2024_14.jpg",
-            "gallery/2024_15.jpg"
-          ]
-        }
       ];
 
       const container = document.getElementById("years-container");
       const lightbox = document.getElementById("lightbox");
       const lightboxImg = document.getElementById("lightbox-img");
       const lightboxClose = document.getElementById("lightbox-close");
-      const lightboxPrev = document.getElementById("lightbox-prev");
-      const lightboxNext = document.getElementById("lightbox-next");
 
-      // Haelt fest, welches Jahr/Bild gerade in der Lightbox offen ist,
-      // damit die Pfeile dort weiterblaettern koennen.
-      let activeLightbox = null; // { yearData, index, syncWheel }
-
-      function updateLightboxImage() {
-        if (!activeLightbox) return;
-        const { yearData, index } = activeLightbox;
-        lightboxImg.src = yearData.images[index];
-        lightboxImg.alt = yearData.year + " Foto " + (index + 1);
-      }
-
-      function openLightbox(yearData, index, syncWheel) {
-        activeLightbox = { yearData, index, syncWheel };
-        updateLightboxImage();
+      function openLightbox(src, alt) {
+        lightboxImg.src = src;
+        lightboxImg.alt = alt;
         lightbox.classList.add("is-open");
       }
 
       function closeLightbox() {
         lightbox.classList.remove("is-open");
         lightboxImg.src = "";
-        activeLightbox = null;
-      }
-
-      function stepLightbox(dir) {
-        if (!activeLightbox) return;
-        const total = activeLightbox.yearData.images.length;
-        activeLightbox.index = (activeLightbox.index + dir + total) % total;
-        updateLightboxImage();
-        // Wheel im Hintergrund mitdrehen, damit es beim Schliessen
-        // wieder zum zuletzt betrachteten Bild passt.
-        activeLightbox.syncWheel(activeLightbox.index);
       }
 
       lightboxClose.addEventListener("click", closeLightbox);
-      lightboxPrev.addEventListener("click", () => stepLightbox(-1));
-      lightboxNext.addEventListener("click", () => stepLightbox(1));
       lightbox.addEventListener("click", (e) => {
         if (e.target === lightbox) closeLightbox();
       });
       document.addEventListener("keydown", (e) => {
-        if (!lightbox.classList.contains("is-open")) return;
         if (e.key === "Escape") closeLightbox();
-        if (e.key === "ArrowLeft") stepLightbox(-1);
-        if (e.key === "ArrowRight") stepLightbox(1);
       });
 
       // Layout-Werte fuer die Wheel-Positionen relativ zur Mitte (index-Abstand)
@@ -368,13 +252,6 @@
         2: { x: 320,  scale: 0.4,  opacity: 0.25, z: 3 },
         "-2": { x: -320, scale: 0.4, opacity: 0.25, z: 3 }
       };
-
-      // Abstand der Pfeile von der Mitte = Position des Randbilds (Offset 2)
-      // plus dessen halbe (skalierte) Breite plus etwas Luft.
-      const OUTER = WHEEL_LAYOUT[2];
-      const ITEM_BASE_WIDTH = 220;
-      const ARROW_GAP = 22;
-      const ARROW_OFFSET = OUTER.x + (ITEM_BASE_WIDTH * OUTER.scale) / 2 + ARROW_GAP;
 
       function buildWheel(yearData, yearIndex) {
         const block = document.createElement("div");
@@ -390,35 +267,32 @@
         sub.textContent = yearData.images.length + " fotos";
         block.appendChild(sub);
 
+        const row = document.createElement("div");
+        row.className = "wheel-row";
+
+        const prevBtn = document.createElement("button");
+        prevBtn.className = "wheel-arrow";
+        prevBtn.setAttribute("aria-label", "Vorheriges Foto");
+        prevBtn.innerHTML = "&#8249;";
+
         const wheel = document.createElement("div");
         wheel.className = "wheel";
-        wheel.style.setProperty("--arrow-offset", ARROW_OFFSET + "px");
-
         const track = document.createElement("div");
         track.className = "wheel-track";
         wheel.appendChild(track);
 
-        const prevBtn = document.createElement("button");
-        prevBtn.className = "wheel-arrow wheel-arrow-prev";
-        prevBtn.setAttribute("aria-label", "Vorheriges Foto");
-        prevBtn.innerHTML = "&#8249;";
-        wheel.appendChild(prevBtn);
-
         const nextBtn = document.createElement("button");
-        nextBtn.className = "wheel-arrow wheel-arrow-next";
+        nextBtn.className = "wheel-arrow";
         nextBtn.setAttribute("aria-label", "Naechstes Foto");
         nextBtn.innerHTML = "&#8250;";
-        wheel.appendChild(nextBtn);
 
-        block.appendChild(wheel);
+        row.appendChild(prevBtn);
+        row.appendChild(wheel);
+        row.appendChild(nextBtn);
+        block.appendChild(row);
 
         let centerIndex = 0;
         const total = yearData.images.length;
-
-        function setCenter(i) {
-          centerIndex = ((i % total) + total) % total;
-          render();
-        }
 
         function render() {
           track.innerHTML = "";
@@ -445,9 +319,10 @@
 
             item.addEventListener("click", () => {
               if (diff === 0) {
-                openLightbox(yearData, i, setCenter);
+                openLightbox(yearData.images[i], img.alt);
               } else {
-                setCenter(i);
+                centerIndex = i;
+                render();
               }
             });
 
@@ -455,8 +330,15 @@
           }
         }
 
-        prevBtn.addEventListener("click", () => setCenter(centerIndex - 1));
-        nextBtn.addEventListener("click", () => setCenter(centerIndex + 1));
+        prevBtn.addEventListener("click", () => {
+          centerIndex = (centerIndex - 1 + total) % total;
+          render();
+        });
+
+        nextBtn.addEventListener("click", () => {
+          centerIndex = (centerIndex + 1) % total;
+          render();
+        });
 
         render();
         return block;
